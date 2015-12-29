@@ -5,7 +5,26 @@ module.exports.homelist = function(req, res) {
     pageHeader: {
       title: 'Loc8r',
       strapline: "Find places to work with wifi near you!"
-    }
+    },
+    locations: [{
+      name: "Starcups",
+      address: "125 High Street, Reading, RG6 1PS",
+      rating: 3,
+      facilities: ['Hot Drinks', 'Food', 'Premium wifi'],
+      distance: '100m'
+    },{
+      name: "Cafe Hero",
+      address: "125 High Street, Reading, RG6 1PS",
+      rating: 4,
+      facilities: ["Hot Drinks", "Food", "Premium wifi"],
+      distance: '200m'
+    },{
+      name: "Burger Queen",
+      address: "5455 Sheridan rd, Chicago, IL, 60625",
+      rating: 2,
+      facilities: ["Food", "Premium wifi"],
+      distance: '4500km'
+    }]
   });
 };
 
