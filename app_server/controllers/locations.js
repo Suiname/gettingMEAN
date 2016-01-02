@@ -45,6 +45,18 @@ var renderHomepage = function(req, res, responseBody){
   });
 };
 
+var _formatDistance = function(distance){
+  var numDistance, unit;
+  if (distance > 1){
+    numDistance = parseFloat(distance).toFixed(1);
+    unit = 'km';
+  } else {
+    numDistance = parseInt(distance * 1000, 10);
+    unit = 'm';
+  }
+  return numDistance + unit;
+};
+
 module.exports.homelist = function(req, res) {
   var requestOptions, path;
   path = '/api/locations';
@@ -61,7 +73,12 @@ module.exports.homelist = function(req, res) {
   request(
     requestOptions,
     function(err, response, body){
-      renderHomepage(req, res, body);
+      var i, data;
+      data = body;
+      for (i=0; i<data.length; i++){
+        data[i].distance = _formatDistance(data[i].distance);
+      }
+      renderHomepage(req, res, data);
     }
   );
 };
