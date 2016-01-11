@@ -1,0 +1,32 @@
+{
+	"name": "Wrigley Field",
+	"address": "1060 W Addison St, Chicago, IL 60613",
+	"rating": 3.0,
+	"facilities": ["Encased meats", "Old Style", "Bros"],
+	"coords": [-87.655290, 41.949316],
+	"openingTimes": [{
+		"days": "Gamedays",
+		"opening": "7:00am",
+		"closing": "7:00pm",
+		"closed": false
+	}, {
+		"days": "Non-Gamedays",
+		"opening": "8:00am",
+		"closing": "5:00pm",
+		"closed": false
+	}, {
+		"days": "Winterdays",
+		"closed": true
+	}],
+	"reviews": [{
+		"author": "Simon Holmes",
+		"id": {
+			"$oid": "5682d489bc0f2c06d807545c"
+		},
+		"rating": 5.0,
+		"timestamp": {
+			"$date": 1373950800000
+		},
+		"reviewText": "Go cubs Go."
+	}]
+}
