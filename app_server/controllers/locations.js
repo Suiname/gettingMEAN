@@ -143,6 +143,22 @@ var renderDetailPage = function(req,res,locDetail){
   });
 };
 
+var _showError = function(req, res, status){
+  var title, content;
+  if (status === 404){
+    title = "404, page not found";
+    content = "We can't find the page.  Sorry.";
+  } else {
+    title = status + ", something's gone wrong";
+    content = "Something, somewhere, has gone just a little bit wrong.";
+  }
+  res.status(status);
+  res.render('generic-text', {
+    title: title,
+    content: content
+  });
+};
+
 module.exports.locationInfo = function(req, res) {
   var requestOptions, path;
   path = "/api/locations/" + req.params.locationid;
@@ -155,11 +171,17 @@ module.exports.locationInfo = function(req, res) {
     requestOptions,
     function(err, response, body){
       var data = body;
-      data.coords = {
-        lng: body.coords[0],
-        lat: body.coords[1]
-      };
-      renderDetailPage(req, res, data);
+      if (response.statusCode === 200) {
+        data.coords = {
+          lng: body.coords[0],
+          lat: body.coords[1]
+        };
+        renderDetailPage(req, res, data);
+      } else {
+        _showError (req, res, response.statusCode)
+      }
+
+
     }
   );
 };
