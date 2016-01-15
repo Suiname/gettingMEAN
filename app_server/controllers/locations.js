@@ -159,31 +159,35 @@ var _showError = function(req, res, status){
   });
 };
 
-module.exports.locationInfo = function(req, res) {
+var getLocationInfo = function (req, res, callback){
   var requestOptions, path;
-  path = "/api/locations/" + req.params.locationid;
+  path = "/api/locations" + req.params.locationid;
   requestOptions = {
-    url : apiOptions.server + path,
-    method : "GET",
-    json : {}
+    url: apiOptions.server + path,
+    method: "GET",
+    json: {}
   };
   request(
     requestOptions,
-    function(err, response, body){
+    function(err, response, body) {
       var data = body;
       if (response.statusCode === 200) {
         data.coords = {
           lng: body.coords[0],
           lat: body.coords[1]
         };
-        renderDetailPage(req, res, data);
+        callback(req, res, data);
       } else {
-        _showError (req, res, response.statusCode)
+        _showError(req, res, response.statusCode);
       }
-
-
     }
   );
+};
+
+module.exports.locationInfo = function(req, res) {
+  getLocationInfo(req, res, function(req, res, responseData){
+    renderDetailPage(req, res, responseData);
+  })
 };
 
 var renderReviewForm = function(req, res){
@@ -197,7 +201,9 @@ var renderReviewForm = function(req, res){
 
 /* GET 'Add review' page */
 module.exports.addReview = function(req, res) {
-  renderReviewForm(req,res);  
+  getLocationInfo(req, res, function(req, res, responseData){
+    renderReviewForm(req,res, responseData);
+  });
 };
 
 module.exports.doAddReview = function(req, res){
