@@ -186,14 +186,18 @@ module.exports.locationInfo = function(req, res) {
   );
 };
 
+var renderReviewForm = function(req, res){
+  res.render('location-review-form', {
+      title: 'Review Starcups on Loc8r',
+      pageHeader: {
+          title: 'Review Starcups'
+      }
+  });
+}
+
 /* GET 'Add review' page */
 module.exports.addReview = function(req, res) {
-    res.render('location-review-form', {
-        title: 'Review Starcups on Loc8r',
-        pageHeader: {
-            title: 'Review Starcups'
-        }
-    });
+  renderReviewForm(req,res);  
 };
 
 module.exports.doAddReview = function(req, res){
