@@ -33,16 +33,7 @@ if (process.env.NODE_ENV === 'production'){
 //         distance: '250m'
 //     }]
 // });
-var renderHomepage = function(req, res, responseBody){
-  var message;
-  if (!(responseBody instanceof Array)) {
-    message = "API lookup error";
-    responseBody = [];
-  } else {
-    if (!responseBody.length){
-      message = "No places found nearby";
-    }
-  }
+var renderHomepage = function(req, res){
   res.render('locations-list', {
       title: 'Loc8r - find a place to work with wifi',
       pageHeader: {
@@ -68,31 +59,7 @@ var _formatDistance = function(distance){
 };
 
 module.exports.homelist = function(req, res) {
-  var requestOptions, path;
-  path = '/api/locations';
-  requestOptions = {
-    url : apiOptions.server + path,
-    method: "GET",
-    json: {},
-    qs: {
-      lng: -0.7992599,
-      lat: 51.378091,
-      maxDistance: 20
-    }
-  };
-  request(
-    requestOptions,
-    function(err, response, body){
-      var i, data;
-      data = body;
-      if (response.statusCode === 200 && data.length){
-        for (i=0; i<data.length; i++){
-          data[i].distance = _formatDistance(data[i].distance);
-        }
-      }
-      renderHomepage(req, res, data);
-    }
-  );
+  renderHomepage(req, res);
 };
 
 /* GET 'Location info' page */
