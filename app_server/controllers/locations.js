@@ -161,7 +161,8 @@ var renderReviewForm = function(req, res, locDetail){
       pageHeader: {
           title: 'Review' + locDetail.name
       },
-      error: req.query.err
+      error: req.query.err,
+      url: req.originalUrl
   });
 }
 
@@ -186,7 +187,7 @@ module.exports.doAddReview = function(req, res){
     method: "POST",
     json: postdata
   };
-  if (!postdata.author || !postdata.raing || !postdata.reviewText) {
+  if (!postdata.author || !postdata.rating || !postdata.reviewText) {
     res.redirect('/location/' + locationid + '/reviews/new?err=val');
   } else {
     request(
