@@ -3,7 +3,6 @@ angular.module('loc8rApp', ['ngRoute']);
 function config ($routeProvider){
   $routeProvider
     .when('/', {
-
     })
     .otherwise({redirectTo: '/'});
 }
