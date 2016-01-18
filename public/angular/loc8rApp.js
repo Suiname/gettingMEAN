@@ -1,12 +1,15 @@
 angular.module('loc8rApp', []);
 
 var locationsListCtrl = function($scope, loc8rData){
+  $scope.message = "Searching for nerby places";
   loc8rData
     .success(function(data){
+      $scope.message = data.length > 0 ? "" : "No locations found";
       $scope.data = {locations: data};
     })
       .error(function(err){
       console.log(err);
+      $scope.message = "Sorry, something's gone wrong";
       });
 };
 
@@ -42,7 +45,7 @@ var ratingStars = function(){
 };
 
 var loc8rData = function($http){
-  return $http.get('/api/locations?lng=-0.79&lat=51.3&maxDistance=200');
+  return $http.get('/api/locations?lng=-0.79&lat=51.3&maxDistance=500');
 }
 
 angular
