@@ -1,7 +1,13 @@
 angular.module('loc8rApp', []);
 
 var locationsListCtrl = function($scope, loc8rData){
-  $scope.data = { locations: loc8rData};
+  loc8rData
+    .success(function(data){
+      $scope.data = {locations: data};
+    })
+      .error(function(err){
+      console.log(err);
+      });
 };
 
 var _isNumeric = function(n) {
@@ -35,15 +41,8 @@ var ratingStars = function(){
   };
 };
 
-var loc8rData = function(){
-  return [{
-    name: 'Burger Queen',
-    address: '125 High Street, Reading, RG6 IPS',
-    rating: 3,
-    facilities: ['Hot drinks', 'Food', "Premium wifi"],
-    distance: '0.296456',
-    _id: '5370a35f2536f6785f8dfb6a'
-  }];
+var loc8rData = function($http){
+  return $http.get('/api/locations?lng=-0.79&lat=51.3&maxDistance=200');
 }
 
 angular
