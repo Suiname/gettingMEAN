@@ -1,16 +1,31 @@
 angular.module('loc8rApp', []);
 
-var locationsListCtrl = function($scope, loc8rData){
-  $scope.message = "Searching for nerby places";
-  loc8rData
-    .success(function(data){
-      $scope.message = data.length > 0 ? "" : "No locations found";
-      $scope.data = {locations: data};
-    })
-      .error(function(err){
-      console.log(err);
-      $scope.message = "Sorry, something's gone wrong";
-      });
+var locationsListCtrl = function($scope, loc8rData, geolocation){
+  $scope.message = "Checking your location";
+  $scope.getData = function(position){
+    $scope.message = "Searching for nearby places";
+    loc8rData
+      .success(function(data){
+        $scope.message = data.length > 0 ? "" : "No locations found";
+        $scope.data = {locations: data};
+      })
+        .error(function(err){
+        console.log(err);
+        $scope.message = "Sorry, something's gone wrong";
+        });
+  };
+  $scope.showError = function(error){
+    $scope.$apply(function(){
+      $scope.message = error.message;
+    });
+  };
+  $scope.noGeo = function(){
+    $scope.$apply(function(){
+      $scope.message = "Geolocation is not supported by your browser";
+    });
+  };
+
+  geolocation.getPosition($scope.getData, $scope.showError, $scope.noGeo);
 };
 
 var _isNumeric = function(n) {
@@ -54,16 +69,17 @@ var geolocation = function(){
       navigator.geolocation.getCurrentPosition(cbSuccess, cbError);
     } else {
       cbNoGeo();
-    };
-    return {
-      getPosition: getPosition
-    };
+    }
   };
-}
+  return {
+    getPosition: getPosition
+  };
+};
 
 angular
   .module('loc8rApp')
   .controller('locationsListCtrl', locationsListCtrl)
   .filter('formatDistance', formatDistance)
   .directive('ratingStars', ratingStars)
-  .service('loc8rData', loc8rData);
+  .service('loc8rData', loc8rData)
+  .service('geolocation', geolocation);
