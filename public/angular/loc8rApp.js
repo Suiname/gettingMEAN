@@ -48,6 +48,19 @@ var loc8rData = function($http){
   return $http.get('/api/locations?lng=-0.79&lat=51.3&maxDistance=500');
 }
 
+var geolocation = function(){
+  var getPosition = function(cbSuccess, cbError, cbNoGeo){
+    if (navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(cbSuccess, cbError);
+    } else {
+      cbNoGeo();
+    };
+    return {
+      getPosition: getPosition
+    };
+  };
+}
+
 angular
   .module('loc8rApp')
   .controller('locationsListCtrl', locationsListCtrl)
