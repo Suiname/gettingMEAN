@@ -19,13 +19,16 @@ app.set('view engine', 'jade');
 var appClientFiles = [
   'app_client/app.js',
   'app_client/home/home.controller.js',
+  'app_client/about/about.controller.js',
+  'app_client/locationDetail/locationDetail.controller.js',
   'app_client/common/services/geolocation.service.js',
   'app_client/common/services/loc8rData.service.js',
   'app_client/common/filters/formatDistance.filter.js',
   'app_client/common/directives/ratingStars/ratingStars.directive.js',
   'app_client/common/directives/footerGeneric/footerGeneric.directive.js',
   'app_client/common/directives/navigation/navigation.directive.js',
-  'app_client/common/directives/pageHeader/pageHeader.directive.js'
+  'app_client/common/directives/pageHeader/pageHeader.directive.js',
+  'app_client/common/filters/addHtmlLineBreaks.filter.js'
 ];
 var uglified = uglifyJS.minify(appClientFiles, { compress: false});
 fs.writeFile('public/angular/loc8r.min.js', uglified.code, function(err){
@@ -47,7 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', routesApi);
 // app.use('/users', users);
 app.use(function(req, res){
-  res.sendfile(path.join(__dirname, 'app_client', 'index.html'));
+  res.sendFile(path.join(__dirname, 'app_client', 'index.html'));
 });
 
 // catch 404 and forward to error handler
