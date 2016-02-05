@@ -24,7 +24,8 @@ var appClientFiles = [
   'app_client/common/filters/formatDistance.filter.js',
   'app_client/common/directives/ratingStars/ratingStars.directive.js',
   'app_client/common/directives/footerGeneric/footerGeneric.directive.js',
-  'app_client/common/directives/navigation/navigation.directive.js'
+  'app_client/common/directives/navigation/navigation.directive.js',
+  'app_client/common/directives/pageHeader/pageHeader.directive.js'
 ];
 var uglified = uglifyJS.minify(appClientFiles, { compress: false});
 fs.writeFile('public/angular/loc8r.min.js', uglified.code, function(err){
