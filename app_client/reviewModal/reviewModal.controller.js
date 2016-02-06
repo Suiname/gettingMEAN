@@ -3,18 +3,25 @@
     .module('loc8rApp')
     .controller('reviewModalCtrl', reviewModalCtrl);
 
-  var modalInstance = $modal.open({
-    templateUrl: '/reviewModal/reviewModal.view.html',
-    controller: 'reviewModalCtrl as vm',
-    resolve: {
-      locationData: function(){
-        return{
-          locationid: vm.locationid,
-          locationName: vm.data.location.name
-        };
+  vm.popupReviewForm = function(){
+    var modalInstance = $modal.open({
+      templateUrl: '/reviewModal/reviewModal.view.html',
+      controller: 'reviewModalCtrl as vm',
+      resolve: {
+        locationData: function(){
+          return{
+            locationid: vm.locationid,
+            locationName: vm.data.location.name
+          };
+        }
       }
-    }
-  });
+    });
+
+    modalInstance.result.then(function(data){
+      vm.data.location.reviews.push(data);
+    });
+  };
+
 
   reviewModalCtrl.$inject = ['$modalInstance', 'loc8rData', 'locationData'];
   function reviewModalCtrl ($modalInstance, loc8rData, locationData) {
@@ -38,7 +45,7 @@
         reviewText : formData.reviewText
       })
         .success(function(data){
-          console.log("Success!");
+          vm.modal.close(data);
         })
         .error(function(data){
           vm.formError = "Your review has not been saved, try again";
@@ -47,6 +54,9 @@
     };
 
     vm.modal = {
+      close: function(result){
+        $modalInstance.close(result);
+      },
       cancel: function() {
         $modalInstance.dismiss('cancel');
       }
