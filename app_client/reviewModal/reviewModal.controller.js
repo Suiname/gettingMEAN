@@ -16,8 +16,8 @@
     }
   });
 
-  reviewModalCtrl.$inject = ['$modalInstance', 'locationData'];
-  function reviewModalCtrl ($modalInstance, locationData) {
+  reviewModalCtrl.$inject = ['$modalInstance', 'loc8rData', 'locationData'];
+  function reviewModalCtrl ($modalInstance, loc8rData, locationData) {
     var vm = this;
     vm.locationData = locationData;
 
@@ -27,9 +27,23 @@
         vm.formError = "All fields required, please try again";
         return false;
       } else {
-        console.log(vm.formData);
-        return false;
+        vm.doAddReview(vm.locationData.locationid, vm.formData);
       }
+    };
+
+    vm.doAddReview = function(locationid, formData){
+      loc8rData.addReviewById(locationid, {
+        author: formData.name,
+        rating: formData.rating,
+        reviewText : formData.reviewText
+      })
+        .success(function(data){
+          console.log("Success!");
+        })
+        .error(function(data){
+          vm.formError = "Your review has not been saved, try again";
+        });
+      return false;
     };
 
     vm.modal = {
