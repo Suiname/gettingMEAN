@@ -3,26 +3,6 @@
     .module('loc8rApp')
     .controller('reviewModalCtrl', reviewModalCtrl);
 
-  vm.popupReviewForm = function(){
-    var modalInstance = $modal.open({
-      templateUrl: '/reviewModal/reviewModal.view.html',
-      controller: 'reviewModalCtrl as vm',
-      resolve: {
-        locationData: function(){
-          return{
-            locationid: vm.locationid,
-            locationName: vm.data.location.name
-          };
-        }
-      }
-    });
-
-    modalInstance.result.then(function(data){
-      vm.data.location.reviews.push(data);
-    });
-  };
-
-
   reviewModalCtrl.$inject = ['$modalInstance', 'loc8rData', 'locationData'];
   function reviewModalCtrl ($modalInstance, loc8rData, locationData) {
     var vm = this;
